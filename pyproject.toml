@@ -1,8 +1,11 @@
 [tool.poetry]
-name = "project_name"
+name = "session_purchase"
 version = "0.1.0"
-description = ""
-authors = ["Łukasz Neumann <lukasz.neumann@pw.edu.pl>"]
+description = "Analysis and prediction of purchase in client's session."
+authors = [
+    "Łukasz Staniszewski <lukasz.staniszewski.stud@pw.edu.pl>",
+    "Bartosz Cywiński <bartosz.cywinski.stud@pw.edu.pl>"
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
