@@ -1,4 +1,4 @@
-from project_name.data.make_dataset import dummy_sum
+from session_purchase.data.make_dataset import dummy_sum
 
 
 def test_dummy_sum():

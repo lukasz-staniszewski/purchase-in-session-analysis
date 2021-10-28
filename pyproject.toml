@@ -1,8 +1,11 @@
 [tool.poetry]
-name = "project_name"
+name = "session_purchase"
 version = "0.1.0"
-description = ""
-authors = ["Łukasz Neumann <lukasz.neumann@pw.edu.pl>"]
+description = "Analysis and prediction of purchase in client's session."
+authors = [
+    "Łukasz Staniszewski <lukasz.staniszewski.stud@pw.edu.pl>",
+    "Bartosz Cywiński <bartosz.cywinski.stud@pw.edu.pl>"
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -11,6 +14,8 @@ matplotlib = "^3.4.3"
 pandas = "^1.3.4"
 ipykernel = "^6.4.1"
 jupyter = "^1.0.0"
+pytest = "^6.2.5"
+qgrid = "^1.3.1"
 
 [tool.poetry.dev-dependencies]
 
