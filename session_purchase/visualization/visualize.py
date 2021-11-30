@@ -5,3 +5,6 @@ def dummy_plot(data):
     _, ax = plt.subplots()
     ax.plot(data["x"], data["y"])
     return ax
+
+def add_something(x, y):
+    return x + y
