@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pandas as pd
 from pandas import DataFrame
+from sklearn.model_selection import train_test_split
 
 
 def one_hot_encoding(df: pd.DataFrame, column, delimiter=None):
@@ -108,7 +109,12 @@ def main():
     main_df.drop(columns=['session_id', 'user_id', 'product_id'], inplace=True)
     main_df = main_df.join(encode_dates(main_df))
     main_df.drop(columns=['session_start', 'session_end'], inplace=True)
-    main_df.to_json(path_or_buf='../../data/processed/dataset.jsonl', orient="records")
+    y, X = main_df['purchased'], main_df.drop(columns=['purchased'])
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+    X_train['purchased'] = y_train
+    X_test['purchased'] = y_test
+    X_train.to_json(path_or_buf='../../data/processed/train_set.jsonl', orient="records")
+    X_test.to_json(path_or_buf='../../data/processed/test_set.jsonl', orient="records")
 
 
 if __name__ == '__main__':
