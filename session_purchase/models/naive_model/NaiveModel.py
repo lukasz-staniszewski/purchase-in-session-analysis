@@ -2,7 +2,7 @@ import pickle
 
 import pandas as pd
 
-OUT_FILE_PATH = 'models/simple_treshold.txt'
+OUT_FILE_PATH = 'models/naive_model/simple_treshold.txt'
 
 
 class NaiveModel:
