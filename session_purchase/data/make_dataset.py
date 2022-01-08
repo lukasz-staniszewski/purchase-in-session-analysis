@@ -101,12 +101,11 @@ def main():
     timestamp_dict = [{'session_length': x[0], 'session_start': x[1], 'session_end': x[2]} for x in
                       main_df['timestamp']]
     timestamp_df = pd.DataFrame(timestamp_dict)
+    main_df.reset_index(inplace=True)
     main_df = pd.concat([main_df, timestamp_df], axis=1, join="inner")
     main_df.drop(columns=['timestamp'], inplace=True)
-    main_df.index.name = 'session_id'
     main_df['n_views'] = [len(x) for x in main_df['product_id'].values]
-    main_df.reset_index(inplace=True)
-    main_df.drop(columns=['session_id', 'user_id', 'product_id'], inplace=True)
+    main_df.drop(columns=['user_id', 'product_id'], inplace=True)
     main_df = main_df.join(encode_dates(main_df))
     main_df.drop(columns=['session_start', 'session_end'], inplace=True)
     y, X = main_df['purchased'], main_df.drop(columns=['purchased'])
