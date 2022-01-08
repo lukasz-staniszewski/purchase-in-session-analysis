@@ -25,7 +25,7 @@ def main():
     model.compile(optimizer='adam',
                   loss=tf.keras.losses.BinaryCrossentropy(),
                   metrics=['accuracy'])
-    model = train_model(model, train_df.drop(columns=['index', 'purchased']), train_df['purchased'], num_epochs=200)
+    model = train_model(model, train_df.drop(columns=['session_id', 'purchased']), train_df['purchased'], num_epochs=200)
     model.save("../../../models/nn")
 
 
