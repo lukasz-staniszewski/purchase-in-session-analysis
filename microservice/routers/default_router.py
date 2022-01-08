@@ -70,6 +70,6 @@ def choose_model(model_name: str, response: Response):
 @model_router.post("/predict")
 def perform_prediction(response: Response, input_data: InputData):
     response.status_code = 201
-    prediction = bool(models[model_router.current_model_name](input_data.data))
-    return {'prediction:': prediction}
+    prediction = models[model_router.current_model_name](input_data.data)
+    return {'prediction:': float(prediction)}
 

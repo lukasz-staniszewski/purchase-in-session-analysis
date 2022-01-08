@@ -33,3 +33,8 @@ class NaiveModel:
             return None
         predictions = x['session_length'] >= self.treshold
         return predictions
+
+
+if __name__ == '__main__':
+    model = NaiveModel()
+    model.train_model()
