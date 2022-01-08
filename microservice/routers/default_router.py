@@ -4,6 +4,8 @@ from typing import Any
 from fastapi import APIRouter, Response
 from pydantic import BaseModel
 
+import session_purchase.models.random_forest.predict_model
+import session_purchase.models.neural_network.predict_model
 from session_purchase.models.naive_model.NaiveModel import NaiveModel
 
 model_router = APIRouter()
@@ -11,17 +13,18 @@ model_router.current_model = None
 model_router.current_model_name = ""
 
 naive_model = NaiveModel()
-naive_model.load_model()
+# naive_model.load_model()
 
 models = {
-    "prosty": naive_model,
-    "zaawansowany": "model2"
+    "naiwny": naive_model.predict_model,
+    "random_forest": session_purchase.models.random_forest.predict_model.predict,
+    "nn": session_purchase.models.neural_network.predict_model.predict
 }
 
 
 class InputData(BaseModel):
     session_id: int
-    data: dict
+    data: list
 
 
 def change_model(model_name):
@@ -67,6 +70,6 @@ def choose_model(model_name: str, response: Response):
 @model_router.post("/predict")
 def perform_prediction(response: Response, input_data: InputData):
     response.status_code = 201
-    prediction = model_router.current_model.predict_model(input_data.data)
+    prediction = bool(models[model_router.current_model_name](input_data.data))
     return {'prediction:': prediction}
 

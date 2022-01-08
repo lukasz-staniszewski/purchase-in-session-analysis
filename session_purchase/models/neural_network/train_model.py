@@ -1,6 +1,6 @@
-import pandas as pd
 import tensorflow as tf
 import numpy as np
+import pandas as pd
 
 
 def create_model(in_size):
@@ -21,12 +21,12 @@ def train_model(model, X_train, y_train, num_epochs):
 
 def main():
     train_df = pd.read_json(path_or_buf='../../../data/processed/train_set.jsonl')
-    model = create_model(train_df.shape[1]-1)
+    model = create_model(train_df.shape[1] - 2)
     model.compile(optimizer='adam',
                   loss=tf.keras.losses.BinaryCrossentropy(),
                   metrics=['accuracy'])
-    model = train_model(model, train_df.drop(columns=['purchased']), train_df['purchased'], num_epochs=200)
-    model.save("../../models/trained_model")
+    model = train_model(model, train_df.drop(columns=['index', 'purchased']), train_df['purchased'], num_epochs=200)
+    model.save("../../../models/nn")
 
 
 if __name__ == '__main__':
