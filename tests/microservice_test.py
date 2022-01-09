@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def create_input_for_microservice(session_id):
-    test_df = pd.read_json(path_or_buf='data/processed/test_set.jsonl')
+    test_df = pd.read_json(path_or_buf='../data/processed/test_set.jsonl')
     if session_id not in list(test_df['session_id']):
         print("There is no record in set that satisfy given session_id!")
         return False

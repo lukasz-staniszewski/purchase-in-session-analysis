@@ -1,8 +1,7 @@
 import os
 
 import pandas as pd
-import pytest
-from .NaiveModel import NaiveModel, OUT_FILE_PATH
+from session_purchase.models.naive_model.NaiveModel import NaiveModel, OUT_FILE_PATH
 
 
 def test_create():
