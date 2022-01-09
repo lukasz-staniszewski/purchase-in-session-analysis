@@ -31,8 +31,10 @@ def test_predictmodel():
     df_train = pd.read_json(path_or_buf='data/processed/train_set.jsonl')
     min_len = df_train['session_length'].min()
     max_len = df_train['session_length'].max()
-    simple_data_min = {'column_1': 10, 'column_2': 15, 'column_3': 10, 'session_length': min_len}
-    simple_data_max = {'column_1': 10, 'column_2': 15, 'column_3': 10, 'session_length': max_len}
+    simple_data_min = [5 for _ in range(38)]
+    simple_data_max = [5 for _ in range(38)]
+    simple_data_min[32] = 0
+    simple_data_max[32] = max_len
     model = NaiveModel()
     model.load_model()
     assert model.predict_model(simple_data_min) == 0

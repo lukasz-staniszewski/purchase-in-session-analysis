@@ -1,7 +1,5 @@
 import datetime
-import pickle
 from logging.config import dictConfig
-from typing import Any
 import logging
 import pandas as pd
 from fastapi import APIRouter, Response
@@ -9,6 +7,7 @@ from pydantic import BaseModel
 
 import session_purchase.models.random_forest.predict_model
 import session_purchase.models.neural_network.predict_model
+from config.LogConfig import LogConfig
 from session_purchase.models.naive_model.NaiveModel import NaiveModel
 
 model_router = APIRouter()
