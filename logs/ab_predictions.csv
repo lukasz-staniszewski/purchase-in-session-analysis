@@ -1,1 +1,3 @@
-session_id;model_name;prediction
+session_id;model_name;prediction;timestamp
+5505;naive;1;09/01/2022 01:29:33
+8826;random_forest;0.98;09/01/2022 01:43:24

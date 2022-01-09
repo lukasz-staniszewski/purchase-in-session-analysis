@@ -31,7 +31,7 @@ class NaiveModel:
     def predict_model(self, x):
         if not self.treshold:
             return None
-        predictions = x['session_length'] >= self.treshold
+        predictions = int(x[32] >= self.treshold)
         return predictions
 
 

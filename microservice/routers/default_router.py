@@ -64,7 +64,7 @@ def root():
 def choose_model(model_name: str, response: Response):
     if change_model(model_name):
         response.status_code = 201
-        msg = f"Model changed to {model_name}"
+        msg = f"Model changed to {model_router.current_model_name}"
     else:
         response.status_code = 403
         msg = f"Name of model not found!"
@@ -73,6 +73,9 @@ def choose_model(model_name: str, response: Response):
 
 @model_router.post("/predict")
 def perform_prediction(response: Response, input_data: InputData):
+    if model_router.current_model_name == "":
+        response.status_code = 403
+        return {'msg': 'You have to choose model!'}
     if len(input_data.data) != 38:
         response.status_code = 404
         return {'msg': 'Input data should be in length 38!'}
@@ -108,5 +111,34 @@ def add_sample(response: Response, input_data: InputData):
 
 @model_router.post("/ab/perform_ab")
 def perform_ab(response: Response):
-    df = pd.read_csv(ab_logs_file, delimiter=';')
-    print(df)
+    ab_df = pd.read_csv(ab_logs_file, delimiter=';')
+    if ab_df.shape[0] < 2 or ab_df.loc[ab_df['model_name'] == 'random_forest'].shape[0] < 1 or \
+            ab_df.loc[ab_df['model_name'] == 'naive'].shape[0] < 1:
+        response.status_code = 403
+        return {"msg": "A/B logs file is not ready to perform A/B test!"}
+    models_accuracy = {
+        'naive': {
+            'positives': 0,
+            'all': 0,
+        },
+        'random_forest': {
+            'positives': 0,
+            'all': 0,
+        }
+    }
+    test_data = pd.read_json(path_or_buf='data/processed/test_set.jsonl')
+    for row in ab_df.values:
+        set_row = test_data.loc[test_data['session_id'] == row[0]]
+        if set_row.shape[0] == 0:
+            response.status_code = 403
+            return {"msg": "A/B logs file contains session_id that is not in test set, consider adding it or resetting "
+                           "A/B test!"}
+        else:
+            if int(set_row['purchased'].values[0]) == int(row[2] > 0.5):
+                models_accuracy[row[1]]['positives'] += 1
+            models_accuracy[row[1]]['all'] += 1
+    response.status_code = 201
+    return {
+        "Naive accuracy on A/B test:": f"{models_accuracy['naive']['positives'] / models_accuracy['naive']['all'] * 100:.3f}%",
+        "Random forest accuracy on A/B test:": f"{models_accuracy['random_forest']['positives'] / models_accuracy['random_forest']['all'] * 100:.3f}%"
+    }
